@@ -1,0 +1,1 @@
+This project is intended to demonstrate the differences between the 2 most popular UI frameworks, React and Angular, by showing the codebase for each framework which render the same (or mostly the same) application.
