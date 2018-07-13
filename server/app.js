@@ -6,7 +6,7 @@ const logger = require('morgan');
 
 global.__rootpath = path.resolve(__dirname);
 
-const indexRouter = require('./routes/index'); // entry points for rendering various frontend applications
+const indexRouter = require('./routes/index'); // entry point for test pug view
 const apiRouter = require('./routes/api'); // backend api
 
 const app = express();
@@ -15,15 +15,18 @@ const app = express();
 app.set('views', path.join(__rootpath, 'views'));
 app.set('view engine', 'pug');
 
+// CORS
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__rootpath, 'public'))); // TODO: need multiple static directories for each frontend app?  or just one?
-
-// react static directories (the second line is to get registerServiceWorker.js to work)
-app.use('/static', express.static(path.join(__rootpath, 'react/build/static')));
-app.use('/static', express.static(path.join(__rootpath, 'react/build')));
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
