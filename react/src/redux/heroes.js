@@ -1,30 +1,30 @@
-
+import { HEROES } from '../mock-heroes';
 
 /* -----------  ACTION TYPES ----------- */
 
-const GET_HEROES = 'GET_HEROES';
+const LOAD_HEROES = 'LOAD_HEROES';
 const SET_SELECTED = 'SET_SELECTED';
 const EDIT_HERO = 'EDIT_HERO';
 
 /* -----------  ACTION CREATORS ----------- */
 
-const getHeroes = (heroesList) => ({ type: GET_HEROES, heroesList });
-const setSelected = (selectedIdx) => ({ type: SET_SELECTED, selectedIdx });
-const editHero = (selectedIdx, newHeroProperties ) => ({ type: EDIT_HERO, selectedIdx, newHeroProperties });
+const loadHeroes = (heroesList) => ({ type: LOAD_HEROES, heroesList });
+export const setSelected = (selectedIdx) => ({ type: SET_SELECTED, selectedIdx });
+const editHero = (selectedIdx, newHeroProps ) => ({ type: EDIT_HERO, selectedIdx, newHeroProps });
 
 /* -----------  REDUCER ----------- */
 
 export default function reducer(state = { selectedIdx: null, list: [] }, action) {
   switch (action.type) {
-    case GET_HEROES:
+    case LOAD_HEROES:
       return Object.assign({}, state, {list: action.heroesList});
     case SET_SELECTED:
       return Object.assign({}, state, {selectedIdx: action.selectedIdx});
     case EDIT_HERO:
       return Object.assign({}, state, {list:
-        action.heroesList.map((hero, idx) => {
-          return selectedIdx === idx ?
-            Object.assign({}, hero, action.newHeroProperties ) :
+        state.list.map((hero, idx) => {
+          return action.selectedIdx === idx ?
+            Object.assign({}, hero, action.newHeroProps ) :
             hero
         })
       });
@@ -35,6 +35,14 @@ export default function reducer(state = { selectedIdx: null, list: [] }, action)
 
 /* -----------  THUNK CREATORS ----------- */
 
-export const thunkedGetHeroes = () => dispatch => dispatch(clearPlacesOfInterest());
+export const getAndLoadHeroes = () =>
+  dispatch =>
+    Promise.resolve(HEROES)
+      .then(heroes => dispatch(loadHeroes(heroes)));
 
-export const 
+export const updateHero = (selectedIdx, newHeroProps) =>
+  dispatch =>
+    new Promise(resolve => {
+      resolve(Object.assign(HEROES[selectedIdx], newHeroProps));
+    })
+    .then(updatedHero => dispatch(editHero(selectedIdx, updatedHero)));
