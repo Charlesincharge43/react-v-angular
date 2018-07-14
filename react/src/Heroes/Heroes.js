@@ -1,40 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './Heroes.css';
-import { INITIAL_HEROES } from '../mock-heroes';
-import HeroDetail from '../HeroDetail/HeroDetail';
 
-export default class Heroes extends Component {
-  constructor() {
-    super();
-    this.state = {
-      selectedIdx: null,
-      heroes: INITIAL_HEROES
-    }
+import HeroDetail from '../HeroDetail/HeroDetail';
+import { setSelected, getAndLoadHeroes, updateHero } from '../redux/heroes';
+
+
+class Heroes extends Component {
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
+  }
+  componentDidMount(){
+    this.props.getAndLoadHeroes();
   }
   handleChange(e) {
     const newName = e.target.value;
-    const selectedIdx = this.state.selectedIdx;
-    this.setState({
-      heroes: this.state.heroes.map((hero, idx) => {
-        return selectedIdx === idx ?
-          Object.assign(hero, { name: newName }) :
-          hero
-      })
-    });
+    const selectedIdx = this.props.heroes.selectedIdx;
+    this.props.updateHero(selectedIdx, {name: newName})
   }
   onSelect(idx) {
-    this.setState({ selectedIdx: idx });
+    this.props.setSelected(idx);
   }
   render() {
-    const selectedIdx = this.state.selectedIdx;
-    const selectedHero = this.state.heroes[selectedIdx];
-
+    const selectedIdx = this.props.heroes.selectedIdx;
+    const heroesList = this.props.heroes.list;
+    const selectedHero = heroesList[selectedIdx];
+    
     return (
       <div>
         <h2>My Heroes</h2>
         <ul className="heroes">
-          {this.state.heroes.map((hero, idx) =>
+          {heroesList.map((hero, idx) =>
             <li key={idx}
             onClick={() => this.onSelect(idx)}
             className={ idx === selectedIdx ? "selected" : undefined }>
@@ -47,3 +44,8 @@ export default class Heroes extends Component {
       </div>)
   }
 }
+
+const mapStateToProps = ({ heroes }) => ({ heroes });
+const mapDispatchToProps = { setSelected, getAndLoadHeroes, updateHero };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Heroes);
