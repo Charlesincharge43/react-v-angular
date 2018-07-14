@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import './Heroes.css';
-import { INITIAL_HEROES } from '../mock-heroes';
+
+import { HEROES } from '../mock-heroes';
 import HeroDetail from '../HeroDetail/HeroDetail';
+
 
 export default class Heroes extends Component {
   constructor() {
     super();
     this.state = {
       selectedIdx: null,
-      heroes: INITIAL_HEROES
+      heroes: HEROES
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -18,7 +20,7 @@ export default class Heroes extends Component {
     this.setState({
       heroes: this.state.heroes.map((hero, idx) => {
         return selectedIdx === idx ?
-          Object.assign(hero, { name: newName }) :
+          Object.assign({}, hero, { name: newName }) :
           hero
       })
     });
