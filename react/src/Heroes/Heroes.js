@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { HEROES } from '../mock-heroes';
+
 export default class Heroes extends Component {
   constructor(){
     super()
