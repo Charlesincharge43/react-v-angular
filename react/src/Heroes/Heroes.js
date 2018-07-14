@@ -41,7 +41,7 @@ export default class Heroes extends Component {
             </li>
           )}
         </ul>
-        {this.state.selectedIdx !== null &&
+        {selectedHero &&
           <div>
             <h2>{selectedHero.name.toUpperCase()} Details</h2>
             <div><span>id: </span>{selectedHero.id}</div>
