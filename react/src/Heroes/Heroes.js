@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Heroes.css';
 import { INITIAL_HEROES } from '../mock-heroes';
+import HeroDetail from '../HeroDetail/HeroDetail';
 
 export default class Heroes extends Component {
   constructor() {
@@ -36,21 +37,13 @@ export default class Heroes extends Component {
           {this.state.heroes.map((hero, idx) =>
             <li key={idx}
             onClick={() => this.onSelect(idx)}
-            className={ idx === selectedIdx && "selected" }>
+            className={ idx === selectedIdx ? "selected" : undefined }>
               <span className="badge">{hero.id}</span> {hero.name}
             </li>
           )}
         </ul>
-        {this.state.selectedIdx !== null &&
-          <div>
-            <h2>{selectedHero.name.toUpperCase()} Details</h2>
-            <div><span>id: </span>{selectedHero.id}</div>
-            <div>
-              <label>name:
-              <input onChange={this.handleChange} value={selectedHero.name} placeholder={selectedHero.name} />
-              </label>
-            </div>
-          </div>}
+
+        <HeroDetail hero={selectedHero} handleChange={this.handleChange} />
       </div>)
   }
 }
