@@ -36,7 +36,7 @@ export default class Heroes extends Component {
           {this.state.heroes.map((hero, idx) =>
             <li key={idx}
             onClick={() => this.onSelect(idx)}
-            className={ idx === selectedIdx && "selected" }>
+            className={ idx === selectedIdx ? "selected" : undefined }>
               <span className="badge">{hero.id}</span> {hero.name}
             </li>
           )}
