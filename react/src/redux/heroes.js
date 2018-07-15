@@ -1,5 +1,7 @@
 import { HEROES } from '../mock-heroes';
 
+import { addMessage } from './messages';
+
 /* -----------  ACTION TYPES ----------- */
 
 const LOAD_HEROES = 'LOAD_HEROES';
@@ -38,7 +40,10 @@ export default function reducer(state = { selectedIdx: null, list: [] }, action)
 export const getAndLoadHeroes = () =>
   dispatch =>
     Promise.resolve(HEROES)
-      .then(heroes => dispatch(loadHeroes(heroes)));
+      .then(heroes => {
+        dispatch(loadHeroes(heroes));
+        dispatch(addMessage('HeroService: fetched heroes'));
+      });
 
 export const updateHero = (selectedIdx, newHeroProps) =>
   dispatch =>
