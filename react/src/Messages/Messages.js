@@ -7,8 +7,8 @@ import { clearMessages } from '../redux/messages';
 const Messages = ({ messages, clearMessages }) => {
   return (messages.length ?
     <div>
-      <h2>Messages</h2>
-      <button class="clear" onClick={clearMessages}>clear</button>
+      <h2 className="messages">Messages</h2>
+      <button class="clear messages" onClick={clearMessages}>clear</button>
 
       {messages.map(message => <div> {message} </div>)}
     </div> : null)
