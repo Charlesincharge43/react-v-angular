@@ -3,7 +3,6 @@ import './Heroes.css';
 import { HEROES } from '../mock-heroes';
 
 export default class Heroes extends Component {
-
   state = {
     selectedIdx: null,
     heroes: HEROES
