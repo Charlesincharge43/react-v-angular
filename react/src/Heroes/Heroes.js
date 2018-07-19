@@ -6,15 +6,12 @@ import HeroDetail from '../HeroDetail/HeroDetail';
 
 
 export default class Heroes extends Component {
-  constructor() {
-    super();
-    this.state = {
-      selectedIdx: null,
-      heroes: HEROES
-    }
-    this.handleChange = this.handleChange.bind(this);
+  state = {
+    selectedIdx: null,
+    heroes: HEROES
   }
-  handleChange(e) {
+
+  handleChange = (e) => {
     const newName = e.target.value;
     const selectedIdx = this.state.selectedIdx;
     this.setState({
@@ -25,9 +22,9 @@ export default class Heroes extends Component {
       })
     });
   }
-  onSelect(idx) {
-    this.setState({ selectedIdx: idx });
-  }
+  
+  onSelect = (idx) => this.setState({ selectedIdx: idx })
+
   render() {
     const selectedIdx = this.state.selectedIdx;
     const selectedHero = this.state.heroes[selectedIdx];
